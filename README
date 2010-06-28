@@ -1,0 +1,5 @@
+This app is part of the dponisetting project.
+
+The HTML requires JQuery and simplejson, but other than that has no dependencies.
+
+Corey Reid, Jun 28, 2010

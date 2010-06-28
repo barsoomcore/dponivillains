@@ -1,0 +1,28 @@
+{% extends "templates/base.html" %}
+{% block title %}Villain Generator{% endblock %}
+{% block head %}
+{% endblock%}
+{% block content %}
+<h1>Selecting A Villain</h1>
+<p>Villains are of course key to any great DINO-PIRATES OF NINJA ISLAND adventure. While you could peruse <a href="/Creatures.php">the list of creatures provided</a>, and select a villain from within, sometimes that's more work than one really needs to take on. Often a villain doesn't need to have every detail specified -- just enough so that you can run a big combat scene. And while window dressing may vary, to be honest, most villains fall into one of a few distinct categories.</p>
+<p>Enter this, the official DINO-PIRATES OF NINJA ISLAND Villain Picker. Start by selecting any of the villain types below, then choose a level appropriate to your party, and you'll have a statblock your party will fear and love, all at the same time.</p>
+<h2>Villain Types</h2>
+<h3><a href="{% url villain_name 'Artillery' %}">Artillery</a></h3>
+<p>Artillery is meant to present powerful ranged combatants. Unlike lurkers, artillery don’t focus on ambush; they’re good enough, and use terrain intelligently enough, that they can confront things head-on. Unlike skirmishers, artillery don’t have to stay on the move, although clever movement is important to their success and survival.</p>
+<p>This role can represent master archers, range-focused highwaymen, powerful evokers, demon-fused wizards, or any other character that is a threat due to powerful, unending ranged attacks.</p>
+<h3><a href="{% url villain_name 'Brute' %}">Brute</a></h3>
+<p>Physically powerful and very dangerous, the brute excels at close combat. Whether a demon or beast tearing apart prey, or a mighty warrior crushing weaker foes, the brute closes with and destroys his enemies through sheer power.</p>
+<h3><a href="{% url villain_name 'Controller' %}">Controller</a></h3>
+<p>Controllers manipulate the battlefield, changing the circumstances to those most beneficial to their cause. Creating barriers, deploying traps and snares, causing deceptions and distractions, and generally wreaking havoc upon movement and coordination is the controller’s specialty. Sometimes, you want a “controller” that enhances his allies rather than altering the field; for such characters look to the War Leader role.</p>
+<p>This role can represent abjurers, conjurers, illutionists, transmuters, and even enchanters. It can also represent specialized grenades, trick arrows, sonic emitter cannons, or any of a dozen other methods for deploying discontent and confusion across a battlefield.</p>
+<h3><a href="{% url villain_name 'Lurker' %}">Lurker</a></h3>
+<p>The lurker specializes in taking down opponents by underhanded means, and when the prey least expects it. Lurkers are at a disadvantage in a fair fight, but their skills at stealth and deception ensure it should be difficult to pin them down.</p>
+<p>This role is good for stealthy ninjae, singular assassins, cave-dwelling sudden death, or other foes that strike suddenly and unexpectedly, relying upon surprise and precision to defeat powerful foes. Lurkers generally fall quickly if unable to escape to strike again.</p>
+<h3><a href="{% url villain_name 'Skirmisher' %}">Skirmisher</a></h3>
+<p>The skirmisher is the proof of the power of mobility. Skirmishers not only refuse to stay still, they lose out greatly by not moving. Skirmishers are generally wary of large groups of opponents, due to the risk of being hemmed in and unable to move fast enough. 																	</p>
+<p>This role is ideal for many animalistic predators (cheetah, eagles, and others that rely upon speed), dervish nomads, shadow-dancing rogues, hit-and-run drakes, and classic swinging-from-the-rigging swashbucklers. If the opponent moves fast, and uses that momentum to strike hard, then the skirmisher role is the one you want.</p>
+<h3><a href="{% url villain_name 'WarLeader' %}">War Leader</a></h3>
+<p>The war leader is a field commander, a leader of troops and a commanding presence on any battlefield. Some inspire their followers through praise and leadership while others use threats and fear. The most dangerous tend to be honorable and noble, but the numbers they can bring and their dedication to dominance make them implacable foes and dangerous politicians.</p><p>Don’t confuse a war leader with a villain that simply attracts followers. Though of moderate power on his own, a war leader uses his followers to even the odds against the party. Other villains may use thugs and footsoldiers but the war leader depends upon them.</p>
+<h2>Where This Came From</h2>
+<p>The idea and execution of Villain Roles was the brainchild of the very clever folks over on <a href="http://true20.com/forum/viewtopic.php?f=2&t=2304">the True20 discussion forums</a>, in particular folks such as The Shadow, iwatt, Baduin and ValhallaGH (who did most of the heavy lifting as far as defining the roles themselves). I just wrote a bit of JavaScript around their hard work.</p>
+{% endblock %}
