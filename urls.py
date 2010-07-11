@@ -9,6 +9,7 @@ urlpatterns = patterns('',
 )
 
 urlpatterns += patterns('dponisetting.dponivillains.villainviews',
-    url(r'^(?P<villain>[-\w]+)/$', 'villain_picker', name='villain_name'),
-    url(r'^(?P<villain>[-\w]+)/(?P<level>[-\w]+)$',  'villain_picker', name='villain_name_and_level'),
+    url(r'^(?P<villain>[-\w]+)/$', 'villain_picker', name='villain_role'),
+    url(r'^(?P<villain>[-\w]+)/(?P<level>[-\w]+)$',  'villain_picker', name='villain_role_and_level'),
+    url(r'^(?P<villain>[-\w]+)/(?P<level>[-\w]+)/(?P<name>[-\w]+)$', 'villain_picker', name='npc'),
 )

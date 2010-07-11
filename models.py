@@ -23,13 +23,14 @@ class VillainRole(models.Model):
 	name = models.CharField(max_length=100, primary_key=True)
 	skills = models.ManyToManyField(Skill, related_name='roles')
 	description = models.TextField()
+	slug = models.SlugField(max_length=100, unique=True)
 	
 	def __unicode__(self):
 		return u'%s' % (self.name)
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return('villain_name', (), { 'villain': self.name })
+		return('villain_role', (), { 'villain': self.name })
 
 class VillainLevel(models.Model):
 	role = models.ForeignKey(VillainRole, to_field = 'name', related_name='levels')
@@ -58,4 +59,13 @@ class VillainLevel(models.Model):
 	
 	@models.permalink
 	def get_absolute_url(self):
-		return('villain_name_and_level', { 'villain': self.role, 'level': self.level })
+		return('villain_role_and_level', { 'villain': self.role, 'level': self.level })
+
+class NPC(models.Model):
+	role_level = models.ForeignKey(VillainLevel)
+	name = models.CharField(max_length=200)
+	slug = models.SlugField(max_length=200, unique=True)
+	
+	@models.permalink
+	def get_absolute_url(self):
+		return('npc', (), {'villain': self.role_level.role, 'level': self.role_level.level, 'name': self.slug})

@@ -7,7 +7,8 @@
 {% endblock %}
 {% block head %}
 <script type="text/javascript">
-	function villain(selected_level){
+	function villain(selected_level, name){
+		this.Name = name;
 		this.Level = selected_level.level;
 		this.BCB = selected_level.base_combat_bonus;
 		this.SCB = selected_level.secondary_combat_bonus;
@@ -37,6 +38,7 @@
 		this.Second_Parry = this.Second_Defense + selected_level.strength;
 		
 		this.set_Reputation = function(){
+			// since the War Leader has a +3 Reputation Bonus
 			var Reputation = (this.Level/5).toPrecision(1);
 			if (Reputation < 1) { Reputation = 0 };
 			if ('{{ villain_role.name }}' == 'War Leader'){
@@ -66,8 +68,9 @@
 						this_skill[1] = this_skill[1] - 3;
 					}
 				}
-				if (String(this_skill[1]).charAt(0) != '-')
+				if (String(this_skill[1]).charAt(0) != '-'){
 					this_skill[1] = '+' + this_skill[1];
+				}
 				skill_list.push(this_skill.join(':&nbsp;'));
 			}
 			this.Skills = skill_list.join('; ');
@@ -98,7 +101,19 @@
 			this.Level = n+(s[(v-20)%10]||s[v]||s[0]);
 		};
 		
+		this.format_numbers = function() {
+			var numbers = new Array();
+			numbers = ['BCB', 'Primary_Attack', 'Secondary_Attack', 'Fortitude', 'Reflex', 'Will', 'Damage', 'Toughness', 'Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma', 'MB', 'Full_Damage', 'Reputation'];
+			for (var i = 0; i <= numbers.length; i++){
+				if (String(this[numbers[i]]).charAt(0) != '-'){
+					this[numbers[i]] = '+' + this[numbers[i]];
+				}
+			}
+		};
+		
 		this.display = function(){
+			this.format_numbers();
+			$(".Name").html(this.Name);
 			$(".Level").html(this.Level + ' Level ');
 			$(".BCB").html(this.BCB);
 			$(".Primary_Attack").html(this.Primary_Attack);
@@ -130,17 +145,19 @@
 			}
 			$(".Skills").html(this.Skills);
 			$(".Reputation").html(this.Reputation);
-			$(".villain_link").attr('href',selected_level.level);
+			if (!this.Name) {
+				$(".villain_link").attr('href', '{{ villain_url }}' + selected_level.level);
+			}
 			$(".villain_link").show();
 			$("title").html(this.Level + ' Level ' + '{{ villain_role.name}}');
 			$(".StatBlock").show();
 		};
 	};
 	
-	function create_villain(select, villain_data, skills){
+	function create_villain(select, villain_data, skills, name){
 		for (var i = 0; i < villain_data.length; i++){
 			if (villain_data[i].fields.level == select){
-				var new_villain = new villain(villain_data[i].fields);
+				var new_villain = new villain(villain_data[i].fields, name);
 				new_villain.create_abilities_list(villain_data, select);
 				new_villain.create_skills_list(skills);
 				new_villain.set_Reputation();
@@ -155,6 +172,7 @@
 		var selected = {{ villain_level }};
 		var skills = {{ villain_skills|safe }};
 		var villain_data = {{villain_data|safe }};
+		var name = '{{ npc.name }}';
 		
 		//set the level select options
 		document.Villain.Villain_Level.options.length = 0;
@@ -167,13 +185,14 @@
 		if (selected != '0') {
 			var current_level = document.Villain.Villain_Level[selected];
 			current_level.selected = true;
-			var villain_obj = create_villain(selected, villain_data, skills);			
+			var villain_obj = create_villain(selected, villain_data, skills, name);			
 			villain_obj.display();
 		}
 		
 		$("#level").change(function(){
+			name = "";
 			var select = document.Villain.Villain_Level.options.selectedIndex;
-			var villain_obj = create_villain(select, villain_data, skills);				
+			var villain_obj = create_villain(select, villain_data, skills, name);				
 			villain_obj.display();
 					
 		});
@@ -192,6 +211,7 @@
 		<select name="Villain_Level" id="level">
 		</select>
 	</form>
+	
 	</div>
 	
 	<div class="StatBlock" style="display:none; clear:left" >
@@ -199,10 +219,10 @@
 		<table id="statblocktable">
 		<tr>
 			<td>Name:</td>
-			<td colspan="4"></td>
+			<td colspan="4"><strong><span class="Name"></span></strong></td>
 			<td colspan="4">(<span class="Level"></span>{{ villain_role.name }} )</td>
 			<td colspan="2" class="stat_name">Reputation:</td>
-			<td class="statvalue">+<span class="Reputation"></span></td>
+			<td class="statvalue"><span class="Reputation"></span></td>
 		</tr>
 		<tr class="titlebar"><td colspan="12">Abilities</td></tr>
 		<tr>
@@ -236,18 +256,18 @@
 			<td class="stat_name">Init:</td>
 			<td colspan="2" class="statvalue"><span class="Dexterity"></span></td>
 			<td colspan="3" class="stat_name">Primary Attack:</td>
-			<td colspan="2" class="statvalue">+<span class="Primary_Attack"></span></td>
+			<td colspan="2" class="statvalue"><span class="Primary_Attack"></span></td>
 			<td class="stat_name" colspan="2">Damage:</td>
-			<td colspan="2" class="statvalue">+<span class="Full_Damage"></span></td>
+			<td colspan="2" class="statvalue"><span class="Full_Damage"></span></td>
 		</tr>
 		
 		<tr><td class="stat_name">Maneuver:</td>
-		<td colspan="2" class="statvalue">+<span class="MB"></span></td>
+		<td colspan="2" class="statvalue"><span class="MB"></span></td>
 			{% if villain_role.name = 'Artillery' or villain_role.name = 'Skirmisher' %}
 				<td colspan="3" class="stat_name">Secondary Attack:</td>
-				<td colspan="2" class="statvalue">+<span class="Secondary_Attack"></span></td>			
+				<td colspan="2" class="statvalue"><span class="Secondary_Attack"></span></td>			
 				<td class="stat_name" colspan="2">Damage:</td>
-				<td colspan="2" class="statvalue">+<span class="Damage"></span></td>
+				<td colspan="2" class="statvalue"><span class="Damage"></span></td>
 			{% else %}
 				<td colspan="9"></td>
 			{% endif %}
@@ -387,18 +407,18 @@
 		<tr class="titlebar"><td colspan="12">Saves</td></tr>
 		<tr>
 			<td colspan="2" class="stat_name">Toughness:</td>
-			<td class="statvalue">+<span class="Toughness"></span></td>
+			<td class="statvalue"><span class="Toughness"></span></td>
 			<td colspan="2" class="stat_name">Fortitude:</td>
-			<td class="statvalue">+<span class="Fort"></span></td>
+			<td class="statvalue"><span class="Fort"></span></td>
 			<td colspan="2" class="stat_name">Reflex:</td>
-			<td class="statvalue">+<span class="Ref"></span></td>
+			<td class="statvalue"><span class="Ref"></span></td>
 			<td colspan="2" class="stat_name">Will:</td>
-			<td class="statvalue">+<span class="Will"></span></td>
+			<td class="statvalue"><span class="Will"></span></td>
 		</tr>
 		</table>
 	</div>
 	
-	<p><a class="villain_link noprint" style="display:none" href="{% url villain_name_and_level villain=villain_role.name level=villain_level %}">Permanent link to this villain</a></p>
+	<p><a class="villain_link noprint" style="display:none" href="{% if npc %}{% url npc villain=villain_role.name level=villain_level name=npc.slug %}{% else %}{% url villain_role_and_level villain=villain_role.slug level=villain_level %}{% endif %}">Permanent link to this villain</a></p>
 	
 	{% if villain_role.name %}
 		<div style="clear:left" class="noprint">
@@ -407,14 +427,17 @@
 		</div>
 	{% endif %}
 	
+	
+	<p>VILLAIN_URL: {{ villain_url }}</p>
+	
 	<div id="villain_selection" style="clear:left" class="noprint">
 		<h2>Select a{% if villain_role.name %}nother{% endif %} Villain type:</h2>
-		<p><a href="{% url villain_name 'Artillery' %}">Artillery</a> ::
-		 <a href="{% url villain_name 'Brute' %}">Brute</a> ::
-		 <a href="{% url villain_name 'Controller' %}">Controller</a> ::
-		 <a href="{% url villain_name 'Lurker' %}">Lurker</a> ::
-		 <a href="{% url villain_name 'Skirmisher' %}">Skirmisher</a> ::
-		 <a href="{% url villain_name 'WarLeader' %}">War Leader</a></p>
+		<p><a href="{% url villain_role 'Artillery' %}">Artillery</a> ::
+		 <a href="{% url villain_role 'Brute' %}">Brute</a> ::
+		 <a href="{% url villain_role 'Controller' %}">Controller</a> ::
+		 <a href="{% url villain_role 'Lurker' %}">Lurker</a> ::
+		 <a href="{% url villain_role 'Skirmisher' %}">Skirmisher</a> ::
+		 <a href="{% url villain_role 'WarLeader' %}">War Leader</a></p>
 	{% if latest_updates %}
 	<div id="updates" class="noprint">
 		<h2>Some Recent Updates</h2>
