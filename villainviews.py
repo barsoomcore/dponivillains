@@ -38,7 +38,7 @@ def villain_picker(request, villain, level='0', name=''):
 						'villain_skills': villain_skills,
 						'villain_level': level,
 						'npc': npc,
-						'villain_url': settings.VILLAIN_URL + '/' + villain_role.slug + '/',
+						'villain_url': settings.VILLAIN_URL + villain_role.slug + '/',
 	}
 
 	return render_to_response(
