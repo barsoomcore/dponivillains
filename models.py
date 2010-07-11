@@ -66,6 +66,9 @@ class NPC(models.Model):
 	name = models.CharField(max_length=200)
 	slug = models.SlugField(max_length=200, unique=True)
 	
+	def __unicode__(self):
+		return u'%s' % (self.name)
+	
 	@models.permalink
 	def get_absolute_url(self):
 		return('npc', (), {'villain': self.role_level.role, 'level': self.role_level.level, 'name': self.slug})
