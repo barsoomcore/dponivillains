@@ -16,7 +16,7 @@
 		this.Will = selected_level.will + selected_level.wisdom;
 		this.DC = selected_level.dc;
 		this.Damage = selected_level.damage;
-		this.Base_Toughness = selected_level.toughness;
+		this.Toughness = selected_level.toughness + selected_level.constitution;
 		this.Strength = String(selected_level.strength);
 		this.Dexterity = String(selected_level.dexterity);
 		this.Constitution = String(selected_level.constitution);
@@ -43,26 +43,6 @@
 				Reputation = Reputation + 3;
 			}
 			this.Reputation = Reputation;
-		};
-		this.set_Toughness = function(){
-			var Toughness = '';
-			if (this.Base_Toughness){
-				Toughness = this.Base_Toughness + selected_level.constitution;
-			}
-			else Toughness = selected_level.constitution;
-			
-			this.Toughness = Toughness;
-		};
-		
-		this.format_attributes = function(){
-			var Attributes = [this.Strength, this.Dexterity, this.Constitution, this.Intelligence, this.Wisdom, this.Charisma];
-			var Attribute_names = ['Strength', 'Dexterity', 'Constitution', 'Intelligence', 'Wisdom', 'Charisma'];
-		
-			for(var i = 0; i < Attributes.length; i++){
-				if ( Attributes[i].charAt(0) != '-'){
-					this[Attribute_names[i]] = '+' + Attributes[i];
-				}
-			}
 		};
 		
 		this.create_skills_list = function(skills){
@@ -119,7 +99,6 @@
 		};
 		
 		this.display = function(){
-			$(".StatBlock").show();
 			$(".Level").html(this.Level + ' Level ');
 			$(".BCB").html(this.BCB);
 			$(".Primary_Attack").html(this.Primary_Attack);
@@ -154,6 +133,7 @@
 			$(".villain_link").attr('href',selected_level.level);
 			$(".villain_link").show();
 			$("title").html(this.Level + ' Level ' + '{{ villain_role.name}}');
+			$(".StatBlock").show();
 		};
 	};
 	
@@ -161,10 +141,8 @@
 		for (var i = 0; i < villain_data.length; i++){
 			if (villain_data[i].fields.level == select){
 				var new_villain = new villain(villain_data[i].fields);
-				new_villain.format_attributes();
 				new_villain.create_abilities_list(villain_data, select);
 				new_villain.create_skills_list(skills);
-				new_villain.set_Toughness();
 				new_villain.set_Reputation();
 				new_villain.set_Level();
 			}
@@ -420,7 +398,7 @@
 		</table>
 	</div>
 	
-	<p><a class="villain_link noprint" style="display:none" href="{% url villain_name_and_level villain=villain_name level=villain_level %}">Permanent link to this villain</a></p>
+	<p><a class="villain_link noprint" style="display:none" href="{% url villain_name_and_level villain=villain_role.name level=villain_level %}">Permanent link to this villain</a></p>
 	
 	{% if villain_role.name %}
 		<div style="clear:left" class="noprint">

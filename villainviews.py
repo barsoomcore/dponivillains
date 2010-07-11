@@ -31,7 +31,6 @@ def villain_picker(request, villain, level='0'):
 						'villain_data': villain_data,
 						'villain_skills': villain_skills,
 						'villain_level': level,
-						'villain_name': villain_name
 	}
 
 	return render_to_response(

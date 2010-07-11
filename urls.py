@@ -3,7 +3,7 @@ from django.conf.urls.defaults import *
 urlpatterns = patterns('',
 	url(r'^$', 
     	'django.views.generic.simple.direct_to_template', 
-    	{'template': 'villain_intro.html', 'extra_context':{'villain_name': 'Introduction'}}, 
+    	{'template': 'villain_intro.html', 'extra_context':{'villain_role': 'Introduction'}}, 
     	name='villain_intro'
     )
 )
