@@ -123,8 +123,11 @@
 			$(".Will").html(this.Will);
 			if (this.Abilities != '') {$(".Abilities").html(this.Abilities);}
 				else $(".Abilites").html('None');
-			if (this.DC != '') {$(".DC").html(this.DC);}
-				else $(".DC").hide();
+			if (this.DC != null) { 
+				$(".DC_row").html(
+					'<td colspan="2">Save DC:</td><td colspan="10">'
+					+ this.DC + '</span></td>')
+			};
 			$(".Damage").html(this.Damage);
 			$(".Toughness").html(this.Toughness);
 			$(".Strength").html(this.Strength);
@@ -172,7 +175,6 @@
 		var selected = {{ villain_level }};
 		var skills = {{ villain_skills|safe }};
 		var villain_data = {{villain_data|safe }};
-		var name = '{{ npc.name }}';
 		
 		//set the level select options
 		document.Villain.Villain_Level.options.length = 0;
@@ -244,12 +246,7 @@
 			<td colspan="12" style="padding-bottom: 30px"><span class="Abilities">None</span></td>
 		</tr>
 		
-		{% if villain_data.1.7 %}
-			<tr>
-				<td colspan="2">Save DC:</td>
-				<td colspan="10"><span class="DC"></span></td>
-			</tr>
-		{% endif %}
+		<tr class="DC_row"></tr>
 		
 		<tr class="titlebar"><td colspan="12">Combat</td></tr>
 		<tr>
@@ -418,7 +415,7 @@
 		</table>
 	</div>
 	
-	<p><a class="villain_link noprint" style="display:none" href="{% if npc %}{% url npc villain=villain_role.name level=villain_level name=npc.slug %}{% else %}{% url villain_role_and_level villain=villain_role.slug level=villain_level %}{% endif %}">Permanent link to this villain</a></p>
+	<p><a class="villain_link noprint" style="display:none" href="{% url villain_role_and_level villain=villain_role.slug level=villain_level %}">Permanent link to this villain</a></p>
 	
 	{% if villain_role.name %}
 		<div style="clear:left" class="noprint">

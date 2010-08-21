@@ -14,12 +14,9 @@ def villain_picker(request, villain, level='0', name=''):
 	if villain == 'WarLeader':
 		villain = 'War Leader'
 	if name:
-		npc = get_object_or_404(NPC, slug=name)
 		villain_role = npc.role_level.role
-		villain_name = npc.name
 	else:
 		villain_role = get_object_or_404(VillainRole, name=villain)
-		npc = ''
 
 	villain_skills = serializers.serialize('json', villain_role.skills.all())
 	villain_data = serializers.serialize('json', villain_role.levels.all())
@@ -37,7 +34,6 @@ def villain_picker(request, villain, level='0', name=''):
 						'villain_data': villain_data,
 						'villain_skills': villain_skills,
 						'villain_level': level,
-						'npc': npc,
 						'villain_url': settings.VILLAIN_URL + villain_role.slug + '/',
 	}
 
