@@ -2,12 +2,12 @@ from django.db import models
 
 class Skill(models.Model):
 	ABILITY_CHOICES = (
-		('strength', 'Strength'),
-		('dexterity', 'Dexterity'),
-		('constitution', 'Constitution'),
-		('intelligence', 'Intelligence'),
-		('wisdom', 'Wisdom'),
-		('charisma', 'Charisma'),
+		('Strength', 'Strength'),
+		('Dexterity', 'Dexterity'),
+		('Constitution', 'Constitution'),
+		('Intelligence', 'Intelligence'),
+		('Wisdom', 'Wisdom'),
+		('Charisma', 'Charisma'),
 	)
 		
 	name = models.CharField(max_length=100, primary_key=True)
