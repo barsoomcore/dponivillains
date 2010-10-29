@@ -10,6 +10,15 @@
 <script type="text/javascript" src="{{ MEDIA_URL }}scripts/create_villain.js"></script>
 
 <script type="text/javascript">
+
+	/*
+	function displayVillain(selected, role_name, role_slug){
+		new_villain = create_villain(selected, role_name, role_slug);
+		new_statblock = new DPoNIStatblock(new_villain, role_name, "#StatBlock");
+		new_statblock.display();
+		$("title").html(new_statblock.make_ordinal(new_statblock.Level) + ' Level ' + role_name);
+	};
+	*/
 	
 	$(document).ready(function(){
 		var selected = {{ villain_level }};
@@ -27,17 +36,46 @@
 		if (selected != '0') {
 			var current_level = document.VillainLevelSelector.Villain_Level[selected];
 			current_level.selected = true;
-			create_villain(selected, role_name, role_slug, "#StatBlock");
+			create_villain(selected, role_name, role_slug);
+		}
+
+		$("#level").change(function(){
+			name = "";
+			var new_select = document.VillainLevelSelector.Villain_Level.options.selectedIndex;
+			create_villain(new_select, role_name, role_slug);
+			
+			location.pathname = '{{ villain_url }}' + new_select;
+
+		});
+		/*
+		
+		if (selected != '0') {
+			var current_level = document.VillainLevelSelector.Villain_Level[selected];
+			
+			current_level.selected = true;
+			
+			selected_level = create_villain(selected, role_name, role_slug);
+			
+			new_villain = new DPoNIStatblock(selected_level, role_name, "#StatBlock");
+			new_villain.display();
+			$("title").html(new_villain.make_ordinal(new_villain.Level) + ' Level ' + role_name);
 		}
 		
 		$("#level").change(function(){
 			name = "";
 			var new_select = document.VillainLevelSelector.Villain_Level.options.selectedIndex;
-			create_villain(new_select, role_name, role_slug, "#StatBlock");
+			
+			selected_level = create_villain(new_select, role_name, role_slug);
+			
+			new_villain = new DPoNIStatblock(selected_level, role_name, "#StatBlock");
+			new_villain.display();
+			$("title").html(new_villain.make_ordinal(new_villain.Level) + ' Level ' + role_name);
+			
 			location.pathname = '{{ villain_url }}' + new_select;
 					
 		});
 		
+		*/
 	});
 	
 </script>
