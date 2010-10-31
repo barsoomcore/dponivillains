@@ -10,20 +10,12 @@
 <script type="text/javascript" src="{{ MEDIA_URL }}scripts/create_villain.js"></script>
 
 <script type="text/javascript">
-
-	/*
-	function displayVillain(selected, role_name, role_slug){
-		new_villain = create_villain(selected, role_name, role_slug);
-		new_statblock = new DPoNIStatblock(new_villain, role_name, "#StatBlock");
-		new_statblock.display();
-		$("title").html(new_statblock.make_ordinal(new_statblock.Level) + ' Level ' + role_name);
-	};
-	*/
 	
 	$(document).ready(function(){
-		var selected = {{ villain_level }};
+		var selected_level = {{ villain_level }};
 		var role_slug = '{{ villain_role.slug }}';
 		var role_name = '{{ villain_role.name }}';
+		var role = JSON.parse('{{ villain_json|safe }}');
 		
 		//set the level select options
 		document.VillainLevelSelector.Villain_Level.options.length = 0;
@@ -33,49 +25,24 @@
 		
 		// if a level has been indicated in the URL, set the selector
 		// and display the villain
-		if (selected != '0') {
-			var current_level = document.VillainLevelSelector.Villain_Level[selected];
-			current_level.selected = true;
-			create_villain(selected, role_name, role_slug);
-		}
-
-		$("#level").change(function(){
-			name = "";
-			var new_select = document.VillainLevelSelector.Villain_Level.options.selectedIndex;
-			create_villain(new_select, role_name, role_slug);
-			
-			location.pathname = '{{ villain_url }}' + new_select;
-
-		});
-		/*
-		
-		if (selected != '0') {
-			var current_level = document.VillainLevelSelector.Villain_Level[selected];
-			
+		if (selected_level != '0') {
+			var current_level = document.VillainLevelSelector.Villain_Level[selected_level];
 			current_level.selected = true;
 			
-			selected_level = create_villain(selected, role_name, role_slug);
+			new_villain = new create_villain(role, selected_level, role_name);
 			
-			new_villain = new DPoNIStatblock(selected_level, role_name, "#StatBlock");
-			new_villain.display();
-			$("title").html(new_villain.make_ordinal(new_villain.Level) + ' Level ' + role_name);
+			new_statblock = new DPoNIStatblock(new_villain.level, role_name, "#StatBlock");
+			new_statblock.display();
 		}
 		
 		$("#level").change(function(){
 			name = "";
 			var new_select = document.VillainLevelSelector.Villain_Level.options.selectedIndex;
 			
-			selected_level = create_villain(new_select, role_name, role_slug);
-			
-			new_villain = new DPoNIStatblock(selected_level, role_name, "#StatBlock");
-			new_villain.display();
-			$("title").html(new_villain.make_ordinal(new_villain.Level) + ' Level ' + role_name);
-			
-			location.pathname = '{{ villain_url }}' + new_select;
+			document.location.href = '../' + role_slug + '/' + new_select;
 					
 		});
 		
-		*/
 	});
 	
 </script>
@@ -86,7 +53,7 @@
 	<div class="noprint">
 	<h4 style="float:left; padding-right: 1em">Select {{ villain_role }} Level:</h4>
 	
-	<form name="VillainLevelSelector" style="padding-top: 1.8em;">
+	<form name="VillainLevelSelector" style="padding-top: 1.8em;" >
 		<select name="Villain_Level" id="level"></select>
 	</form>
 	</div>

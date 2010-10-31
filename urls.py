@@ -11,5 +11,4 @@ urlpatterns = patterns('',
 urlpatterns += patterns('dponisetting.dponivillains.villainviews',
     url(r'^(?P<villain>[-\w]+)/$', 'villain_picker', name='villain_role'),
     url(r'^(?P<villain>[-\w]+)/(?P<level>[-\w]+)$',  'villain_picker', name='villain_role_and_level'),
-    url(r'^villain_data_json/(?P<villain>[-\w]+)/$', 'villain_data_json', name='villain_data_json'),
 )
