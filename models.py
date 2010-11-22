@@ -1,3 +1,4 @@
+from django.core import serializers
 from django.db import models
 
 class Skill(models.Model):
@@ -31,6 +32,13 @@ class VillainRole(models.Model):
 	@models.permalink
 	def get_absolute_url(self):
 		return('villain_role', (), { 'villain': self.name })
+	
+	def as_json(self):
+		json_data = '['
+		json_data = json_data + serializers.serialize('json', self.levels.all())
+		json_data = json_data + ', ' + serializers.serialize('json', self.skills.all())
+		json_data = json_data + ']'
+		return json_data
 
 class VillainLevel(models.Model):
 	role = models.ForeignKey(VillainRole, to_field = 'name', related_name='levels')
@@ -60,6 +68,7 @@ class VillainLevel(models.Model):
 	@models.permalink
 	def get_absolute_url(self):
 		return('villain_role_and_level', { 'villain': self.role, 'level': self.level })
+	
 
 class NPC(models.Model):
 	role_level = models.ForeignKey(VillainLevel)
