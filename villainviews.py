@@ -1,19 +1,13 @@
-import simplejson as json
-from django.core import serializers
-from django.shortcuts import render_to_response, get_list_or_404, get_object_or_404
+from django.shortcuts import render_to_response, get_object_or_404
 from django.template import RequestContext
 from django.conf import settings
-from django.http import HttpResponse
 
-from dponisetting.dponivillains.models import Skill, VillainRole, VillainLevel, NPC
+from dponisetting.dponivillains.models import VillainRole
 from dponisetting import settings
 
-def villain_picker(request, villain, level='0', name=''):
+def villain_picker(request, villain, level='0'):
 
-	if villain == 'WarLeader':
-		villain = 'War Leader'
-	
-	villain_role = get_object_or_404(VillainRole, name=villain)
+	villain_role = get_object_or_404(VillainRole, slug=villain)
 		
 	try:
 		level = int(level)
