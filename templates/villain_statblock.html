@@ -7,8 +7,6 @@
 {% endblock %}
 {% block head %}
 
-<script type="text/javascript" src="{{ MEDIA_URL }}scripts/create_villain.js"></script>
-
 <script type="text/javascript">
 	
 	$(document).ready(function(){
@@ -29,7 +27,7 @@
 			var current_level = document.VillainLevelSelector.Villain_Level[selected_level];
 			current_level.selected = true;
 			
-			new_villain = new create_villain(role, selected_level, role_name);
+			new_villain = new DPoNIVillain(role, selected_level, role_name);
 			
 			new_statblock = new DPoNIStatblock(new_villain.level, role_name, "#StatBlock");
 			new_statblock.display();

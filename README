@@ -1,5 +1,5 @@
 This app is part of the dponisetting project.
 
-The HTML requires JQuery and simplejson, and depends on a couple of javascript files called "create_villain.js" and "dponi_statblock.js", that you'd have to pull from http://www.dino-pirates.com/dponiwiki/villains -- or thereabouts.
+The HTML requires JQuery and simplejson, and depends on a couple of javascript objects called "DPoNIVillain" and "DPoNIStatblock", that you'd have to pull from http://www.dino-pirates.com/dponiwiki/villains -- or thereabouts.
 
 Corey Reid, Jun 28, 2010
