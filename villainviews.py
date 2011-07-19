@@ -18,7 +18,6 @@ def villain_picker(request, villain, level='0'):
 		
 	template_params = { 'villain_role': villain_role,
 						'villain_level': level,
-						'villain_url': settings.VILLAIN_URL + villain_role.slug + '/',
 	}
 
 	return render_to_response(
